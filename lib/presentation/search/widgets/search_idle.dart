@@ -18,15 +18,23 @@ class SearchIdle extends StatelessWidget {
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: kGoldenColor,
+              ),
             );
           } else if (state.isError) {
-            return const Center(
-              child: Text(
-                'Error Data',
-                style: TextStyle(color: kWhiteColor),
+            return Center(
+              child: Image.asset(
+                "assets/images/error_gif.gif",
+                height: 125,
+                width: 125,
               ),
+
+              // Text(
+              //   'Error Data',
+              //   style: TextStyle(color: kWhiteColor),
+              // ),
             );
           } else if (state.idleList.isEmpty) {
             return const Center(

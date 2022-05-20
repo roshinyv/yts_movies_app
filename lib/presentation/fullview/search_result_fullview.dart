@@ -248,11 +248,16 @@ class SearchFullView extends StatelessWidget {
               scrollDirection: Axis.vertical,
               physics: const ScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 5,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1.0,
+                crossAxisSpacing: 0.0,
                 mainAxisSpacing: 5,
+                mainAxisExtent: 180,
+                // maxCrossAxisExtent: 200,
+                // childAspectRatio: 3 / 2,
+                // crossAxisSpacing: 5,
+                // mainAxisSpacing: 5,
               ),
               itemCount: dataList.torrents!.length,
               itemBuilder: (context, index) {
@@ -261,7 +266,7 @@ class SearchFullView extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Column(

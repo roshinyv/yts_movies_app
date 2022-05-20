@@ -29,7 +29,6 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
     const Homepage(),
     SearchPage(),
     const AllItemsList(),
-    // PremiumPage(),
     MyList(),
     More(),
   ];
@@ -43,10 +42,8 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
   @override
   Widget build(BuildContext context) {
     print('===========BottomBar=========');
-    // BlocProvider.of<HomeBloc>(context).add(const HomeEvent.getHome());
     return Scaffold(
       extendBody: true,
-      // appBar: AppBar(),
       body: pages[currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 8),

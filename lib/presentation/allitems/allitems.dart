@@ -20,7 +20,6 @@ class _AllItemsListState extends State<AllItemsList> {
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    // int pageno = 8;
     BlocProvider.of<AllitemsBloc>(context).add(AllitemsEvent.nextPage());
     return Scaffold(
       backgroundColor: Colors.black,
@@ -89,7 +88,6 @@ class _AllItemsListState extends State<AllItemsList> {
                     BlocProvider.of<AllitemsBloc>(context)
                       ..isFetching = true
                       ..add(const AllitemsEvent.nextPage());
-                    // ..add(AllitemsEvent());
                   }
                 }),
               children: [
@@ -150,62 +148,6 @@ class _AllItemsListState extends State<AllItemsList> {
               ],
             );
           },
-
-          //   {
-          //   return GridView.builder(
-          //       scrollDirection: Axis.vertical,
-          //       physics: const NeverScrollableScrollPhysics(),
-          //       shrinkWrap: true,
-          //       gridDelegate:
-          //           const SliverGridDelegateWithMaxCrossAxisExtent(
-          //         maxCrossAxisExtent: 150,
-          //         childAspectRatio: 3 / 4,
-          //         crossAxisSpacing: 5,
-          //         mainAxisSpacing: 5,
-          //       ),
-          //       itemCount: state.movieList.length,
-          //       itemBuilder: (BuildContext ctx, index) {
-          //         final movie = state.movieList[index];
-          //         return CardView(
-          //             image: '$imageAppendUrl${movie.posterPath}');
-          //       });
-          // },
-          // ),
-
-          // BlocBuilder<AllitemsBloc, AllitemsState>(
-          //   builder: (context, state) {
-          //     print('=====================blocstate' + state.toString());
-          //     if (state.isLoading) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     } else if (state.isError) {
-          //       return const Center(
-          //         child: Text(
-          //           'Error Data',
-          //           style: TextStyle(color: kWhiteColor),
-          //         ),
-          //       );
-          //     }
-          //     return GridView.builder(
-          //         scrollDirection: Axis.vertical,
-          //         physics: const NeverScrollableScrollPhysics(),
-          //         shrinkWrap: true,
-          //         gridDelegate:
-          //             const SliverGridDelegateWithMaxCrossAxisExtent(
-          //           maxCrossAxisExtent: 150,
-          //           childAspectRatio: 3 / 4,
-          //           crossAxisSpacing: 5,
-          //           mainAxisSpacing: 5,
-          //         ),
-          //         itemCount: state.movieList.length,
-          //         itemBuilder: (BuildContext ctx, index) {
-          //           final movie = state.movieList[index];
-          //           return CardView(
-          //               image: '$imageAppendUrl${movie.posterPath}');
-          //         });
-          //   },
-          // ),
         ),
       ),
     );

@@ -16,15 +16,31 @@ class MoviesdatasBloc extends Bloc<MoviesdataEvent, MoviesdataState> {
   final IHomeRepo _homeRepository;
   MoviesdatasBloc(this._homeRepository) : super(MoviesdataState.initial()) {
     on<GetHomeData>((event, emit) async {
-      emit(state.copyWith(
-        isLoading: true,
-        hasError: false,
-      ));
+      if (state.moviesList.isNotEmpty) {
+        emit(
+          MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: state.hdmovies,
+            topratedmovies: state.topratedmovies,
+            moviesList: state.moviesList,
+            isLoading: false,
+            hasError: false,
+          ),
+        );
+        return;
+      }
+      emit(state.copyWith(isLoading: true, hasError: false));
       final moviesResult = await _homeRepository.getHome();
+      final topRatedMovies = await _homeRepository.getTopratedMovies();
+      final hdMovies = await _homeRepository.gethdMovies();
+
       final state1 = moviesResult.fold(
         (MainFailure failure) {
           log(failure.toString());
-          return const MoviesdataState(
+          return MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: [],
+            topratedmovies: [],
             moviesList: [],
             isLoading: false,
             hasError: true,
@@ -33,6 +49,9 @@ class MoviesdatasBloc extends Bloc<MoviesdataEvent, MoviesdataState> {
         (Data mov) {
           final movieData = mov.movies;
           return MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: [],
+            topratedmovies: [],
             moviesList: movieData!,
             isLoading: false,
             hasError: false,
@@ -40,6 +59,56 @@ class MoviesdatasBloc extends Bloc<MoviesdataEvent, MoviesdataState> {
         },
       );
       emit(state1);
+      final state2 = topRatedMovies.fold(
+        (MainFailure failure) {
+          log(failure.toString());
+          return MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: [],
+            topratedmovies: [],
+            moviesList: [],
+            isLoading: false,
+            hasError: true,
+          );
+        },
+        (Data mov) {
+          final movieData = mov.movies;
+          return MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: [],
+            topratedmovies: movieData!,
+            moviesList: state.moviesList,
+            isLoading: false,
+            hasError: false,
+          );
+        },
+      );
+      emit(state2);
+      final state3 = hdMovies.fold(
+        (MainFailure failure) {
+          log(failure.toString());
+          return MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: [],
+            topratedmovies: [],
+            moviesList: [],
+            isLoading: false,
+            hasError: true,
+          );
+        },
+        (Data mov) {
+          final movieData = mov.movies;
+          return MoviesdataState(
+            stateId: DateTime.now().millisecondsSinceEpoch.toString(),
+            hdmovies: movieData!,
+            topratedmovies: state.topratedmovies,
+            moviesList: state.moviesList,
+            isLoading: false,
+            hasError: false,
+          );
+        },
+      );
+      emit(state3);
     });
   }
 }

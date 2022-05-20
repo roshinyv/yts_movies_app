@@ -14,7 +14,6 @@ class Homepage extends StatefulWidget {
   const Homepage({
     Key? key,
   }) : super(key: key);
-  // static String routeName = 'homepage';
   @override
   State<Homepage> createState() => _HomepageState();
 }
@@ -22,25 +21,29 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   BlocProvider.of<MoviesdatasBloc>(context).add(const GetHomeData());
-    // });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      BlocProvider.of<MoviesdatasBloc>(context).add(const GetHomeData());
+    });
     print('==========Homepage=========');
-    BlocProvider.of<MoviesdatasBloc>(context).add(const GetHomeData());
+    // BlocProvider.of<MoviesdatasBloc>(context).add(const GetHomeData());
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.black,
-      // bottomNavigationBar: CustomBottomBar(),
       body: BlocBuilder<MoviesdatasBloc, MoviesdataState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state.hasError) {
-            return const Center(
-                child: Text(
-              'Error While getting data',
-              style: TextStyle(color: kWhiteColor),
+            return Center(
+                child: CircularProgressIndicator(
+              color: kGoldenColor,
             ));
+          } else if (state.hasError) {
+            return Center(
+              child: Image.asset(
+                "assets/images/error_gif.gif",
+                height: 125,
+                width: 125,
+              ),
+            );
           }
           final _bannerTrending = state.moviesList
               .map((m) {
@@ -65,12 +68,17 @@ class _HomepageState extends State<Homepage> {
                   posterList: state.moviesList,
                 ),
                 TitleCard(
-                  title: "New on YTS",
+                  title: "Top Rated Movies",
                   txtcolor: kWhiteColor,
-                  movData: state.moviesList,
+                  movData: state.topratedmovies,
+                ),
+                TitleCard(
+                  title: "4K Movies",
+                  txtcolor: kWhiteColor,
+                  movData: state.hdmovies,
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 80,
                 )
               ],
             ),

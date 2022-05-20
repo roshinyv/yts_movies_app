@@ -168,7 +168,10 @@ abstract class GetHomeData implements MoviesdataEvent {
 
 /// @nodoc
 mixin _$MoviesdataState {
+  String get stateId => throw _privateConstructorUsedError;
   List<Movie> get moviesList => throw _privateConstructorUsedError;
+  List<Movie> get hdmovies => throw _privateConstructorUsedError;
+  List<Movie> get topratedmovies => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get hasError => throw _privateConstructorUsedError;
 
@@ -182,7 +185,13 @@ abstract class $MoviesdataStateCopyWith<$Res> {
   factory $MoviesdataStateCopyWith(
           MoviesdataState value, $Res Function(MoviesdataState) then) =
       _$MoviesdataStateCopyWithImpl<$Res>;
-  $Res call({List<Movie> moviesList, bool isLoading, bool hasError});
+  $Res call(
+      {String stateId,
+      List<Movie> moviesList,
+      List<Movie> hdmovies,
+      List<Movie> topratedmovies,
+      bool isLoading,
+      bool hasError});
 }
 
 /// @nodoc
@@ -196,14 +205,29 @@ class _$MoviesdataStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? stateId = freezed,
     Object? moviesList = freezed,
+    Object? hdmovies = freezed,
+    Object? topratedmovies = freezed,
     Object? isLoading = freezed,
     Object? hasError = freezed,
   }) {
     return _then(_value.copyWith(
+      stateId: stateId == freezed
+          ? _value.stateId
+          : stateId // ignore: cast_nullable_to_non_nullable
+              as String,
       moviesList: moviesList == freezed
           ? _value.moviesList
           : moviesList // ignore: cast_nullable_to_non_nullable
+              as List<Movie>,
+      hdmovies: hdmovies == freezed
+          ? _value.hdmovies
+          : hdmovies // ignore: cast_nullable_to_non_nullable
+              as List<Movie>,
+      topratedmovies: topratedmovies == freezed
+          ? _value.topratedmovies
+          : topratedmovies // ignore: cast_nullable_to_non_nullable
               as List<Movie>,
       isLoading: isLoading == freezed
           ? _value.isLoading
@@ -224,7 +248,13 @@ abstract class _$$_InitialCopyWith<$Res>
           _$_Initial value, $Res Function(_$_Initial) then) =
       __$$_InitialCopyWithImpl<$Res>;
   @override
-  $Res call({List<Movie> moviesList, bool isLoading, bool hasError});
+  $Res call(
+      {String stateId,
+      List<Movie> moviesList,
+      List<Movie> hdmovies,
+      List<Movie> topratedmovies,
+      bool isLoading,
+      bool hasError});
 }
 
 /// @nodoc
@@ -238,14 +268,29 @@ class __$$_InitialCopyWithImpl<$Res> extends _$MoviesdataStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? stateId = freezed,
     Object? moviesList = freezed,
+    Object? hdmovies = freezed,
+    Object? topratedmovies = freezed,
     Object? isLoading = freezed,
     Object? hasError = freezed,
   }) {
     return _then(_$_Initial(
+      stateId: stateId == freezed
+          ? _value.stateId
+          : stateId // ignore: cast_nullable_to_non_nullable
+              as String,
       moviesList: moviesList == freezed
           ? _value._moviesList
           : moviesList // ignore: cast_nullable_to_non_nullable
+              as List<Movie>,
+      hdmovies: hdmovies == freezed
+          ? _value._hdmovies
+          : hdmovies // ignore: cast_nullable_to_non_nullable
+              as List<Movie>,
+      topratedmovies: topratedmovies == freezed
+          ? _value._topratedmovies
+          : topratedmovies // ignore: cast_nullable_to_non_nullable
               as List<Movie>,
       isLoading: isLoading == freezed
           ? _value.isLoading
@@ -263,16 +308,37 @@ class __$$_InitialCopyWithImpl<$Res> extends _$MoviesdataStateCopyWithImpl<$Res>
 
 class _$_Initial implements _Initial {
   const _$_Initial(
-      {required final List<Movie> moviesList,
+      {required this.stateId,
+      required final List<Movie> moviesList,
+      required final List<Movie> hdmovies,
+      required final List<Movie> topratedmovies,
       required this.isLoading,
       required this.hasError})
-      : _moviesList = moviesList;
+      : _moviesList = moviesList,
+        _hdmovies = hdmovies,
+        _topratedmovies = topratedmovies;
 
+  @override
+  final String stateId;
   final List<Movie> _moviesList;
   @override
   List<Movie> get moviesList {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_moviesList);
+  }
+
+  final List<Movie> _hdmovies;
+  @override
+  List<Movie> get hdmovies {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hdmovies);
+  }
+
+  final List<Movie> _topratedmovies;
+  @override
+  List<Movie> get topratedmovies {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topratedmovies);
   }
 
   @override
@@ -282,7 +348,7 @@ class _$_Initial implements _Initial {
 
   @override
   String toString() {
-    return 'MoviesdataState(moviesList: $moviesList, isLoading: $isLoading, hasError: $hasError)';
+    return 'MoviesdataState(stateId: $stateId, moviesList: $moviesList, hdmovies: $hdmovies, topratedmovies: $topratedmovies, isLoading: $isLoading, hasError: $hasError)';
   }
 
   @override
@@ -290,8 +356,12 @@ class _$_Initial implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Initial &&
+            const DeepCollectionEquality().equals(other.stateId, stateId) &&
             const DeepCollectionEquality()
                 .equals(other._moviesList, _moviesList) &&
+            const DeepCollectionEquality().equals(other._hdmovies, _hdmovies) &&
+            const DeepCollectionEquality()
+                .equals(other._topratedmovies, _topratedmovies) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.hasError, hasError));
   }
@@ -299,7 +369,10 @@ class _$_Initial implements _Initial {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(stateId),
       const DeepCollectionEquality().hash(_moviesList),
+      const DeepCollectionEquality().hash(_hdmovies),
+      const DeepCollectionEquality().hash(_topratedmovies),
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(hasError));
 
@@ -311,12 +384,21 @@ class _$_Initial implements _Initial {
 
 abstract class _Initial implements MoviesdataState {
   const factory _Initial(
-      {required final List<Movie> moviesList,
+      {required final String stateId,
+      required final List<Movie> moviesList,
+      required final List<Movie> hdmovies,
+      required final List<Movie> topratedmovies,
       required final bool isLoading,
       required final bool hasError}) = _$_Initial;
 
   @override
+  String get stateId => throw _privateConstructorUsedError;
+  @override
   List<Movie> get moviesList => throw _privateConstructorUsedError;
+  @override
+  List<Movie> get hdmovies => throw _privateConstructorUsedError;
+  @override
+  List<Movie> get topratedmovies => throw _privateConstructorUsedError;
   @override
   bool get isLoading => throw _privateConstructorUsedError;
   @override

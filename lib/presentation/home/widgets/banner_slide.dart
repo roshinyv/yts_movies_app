@@ -1,11 +1,10 @@
-// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
-import 'package:yts_app/domain/home/model/data.dart';
+import 'package:yts_app/core/colors/constant_colors.dart';
 import 'package:yts_app/presentation/more/more.dart';
 
 class BannerSlide extends StatelessWidget {
@@ -17,7 +16,7 @@ class BannerSlide extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-          height: 650,
+          height: 600,
           child: CarouselSlider.builder(
               enableAutoSlider: true,
               unlimitedMode: true,
@@ -27,9 +26,9 @@ class BannerSlide extends StatelessWidget {
                       return const LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black87],
+                        colors: [Colors.transparent, Colors.black],
                       ).createShader(
-                          Rect.fromLTRB(0, 0, rect.width, rect.height));
+                          Rect.fromLTRB(100, 480, rect.width, rect.height * 1));
                     },
                     blendMode: BlendMode.darken,
                     child: Column(
@@ -38,39 +37,24 @@ class BannerSlide extends StatelessWidget {
                           imageUrl: posterList[index],
                           // placeholder: (context, url) =>
                           //     const Center(child: CircularProgressIndicator(),),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: kGreyColor,
+                          ),
                         ),
-                        // Image.network(
-                        //     posterList[index].largeCoverImage.toString()
-                        // '$imageAppendUrl${posterList[index].posterPath}'
-                        // '$imageAppendUrl$posterPath[index]',
-                        // fit: BoxFit.fill,
-                        // ),
-                        Container(
-                          height: 30,
-                          color: Colors.black,
-                        )
                       ],
                     ));
               },
               slideTransform: const DefaultTransform(),
               slideIndicator: CircularWaveSlideIndicator(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 5),
                 currentIndicatorColor: Colors.white,
                 indicatorBackgroundColor: Colors.white12,
               ),
-
-              // CircularSlideIndicator(
-              //   padding: const EdgeInsets.only(bottom: 10),
-              //   currentIndicatorColor: Colors.white,
-              //   indicatorBackgroundColor: Colors.white12,
-              //   // indicatorBorderWidth: 5,
-              // ),
               itemCount: posterList.length),
         ),
         Positioned(
-          bottom: 30,
+          bottom: 20,
           left: 0,
           right: 0,
           child: Row(
@@ -102,7 +86,7 @@ class BannerSlide extends StatelessWidget {
                 width: 110,
                 height: 40.0,
                 child: ElevatedButton(
-                  child: Text("Play Now"),
+                  child: const Text("Play Now"),
                   onPressed: () => print('object'),
 
                   // Navigator.of(context).push(

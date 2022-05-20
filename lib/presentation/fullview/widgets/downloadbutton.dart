@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,20 +21,20 @@ class DownloadButton extends StatefulWidget {
 }
 
 class _DownloadButtonState extends State<DownloadButton> {
-  final ReceivePort _port = ReceivePort();
+  // final ReceivePort _port = ReceivePort();
 
   @override
   void initState() {
     super.initState();
 
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
-      setState(() {});
-    });
+    // IsolateNameServer.registerPortWithName(
+    //     _port.sendPort, 'downloader_send_port');
+    // _port.listen((dynamic data) {
+    //   String id = data[0];
+    //   DownloadTaskStatus status = data[1];
+    //   int progress = data[2];
+    //   setState(() {});
+    // });
 
     FlutterDownloader.registerCallback(downloadCallback);
   }
@@ -53,13 +54,12 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   void _download(String url) async {
     final status = await Permission.storage.request();
-
+    String path = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
     if (status.isGranted) {
-      final externalDir = await getExternalStorageDirectory();
-
       final id = await FlutterDownloader.enqueue(
         url: url,
-        savedDir: externalDir!.path,
+        savedDir: path,
         showNotification: true,
         openFileFromNotification: true,
       );
@@ -71,68 +71,72 @@ class _DownloadButtonState extends State<DownloadButton> {
   @override
   Widget build(BuildContext context) {
     print('=================downbutton');
-    return Column(
-      children: [
-        SizedBox(
-          width: 100,
-          child: ElevatedButton(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.download,
-                    color: Colors.green,
-                    size: 20,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    widget.torrentData.quality.toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 13),
-                  )
-                ],
-              ),
-              style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.transparent),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                          side: BorderSide(color: Colors.green)))),
-              onPressed: () async {
-                print('==========torrentUrl============' +
-                    widget.torrentData.url.toString());
-                _download(widget.torrentData.url.toString());
-              }),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: SizedBox(
+    return Card(
+      elevation: 0,
+      color: Colors.transparent,
+      child: Column(
+        children: [
+          SizedBox(
             width: 100,
-            child: textRow(
-                txt: 'Quality :', torrentData: widget.torrentData.quality!),
+            child: ElevatedButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.download,
+                      color: Colors.green,
+                      size: 20,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      widget.torrentData.quality.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                    )
+                  ],
+                ),
+                style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.transparent),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                            side: BorderSide(color: Colors.green)))),
+                onPressed: () async {
+                  print('==========torrentUrl============' +
+                      widget.torrentData.url.toString());
+                  _download(widget.torrentData.url.toString());
+                }),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: SizedBox(
-            width: 100,
-            child:
-                textRow(txt: 'Type :', torrentData: widget.torrentData.type!),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SizedBox(
+              width: 100,
+              child: textRow(
+                  txt: 'Quality :', torrentData: widget.torrentData.quality!),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: SizedBox(
-            width: 100,
-            child:
-                textRow(txt: 'Size :', torrentData: widget.torrentData.size!),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SizedBox(
+              width: 100,
+              child:
+                  textRow(txt: 'Type :', torrentData: widget.torrentData.type!),
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SizedBox(
+              width: 100,
+              child:
+                  textRow(txt: 'Size :', torrentData: widget.torrentData.size!),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

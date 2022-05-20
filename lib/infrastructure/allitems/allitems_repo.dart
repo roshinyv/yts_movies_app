@@ -12,11 +12,13 @@ import 'package:yts_app/domain/search/model/data.dart';
 @LazySingleton(as: AllitemsServices)
 class AllitemsRepo extends AllitemsServices {
   @override
-  Future<Either<MainFailure, SearchData>> nextPage({required int pageNo}) async {
+  Future<Either<MainFailure, SearchData>> nextPage(
+      {required int pageNo}) async {
     try {
       final response =
           await Dio(BaseOptions()).get(ApiEndPoints.search, queryParameters: {
         'page': pageNo,
+        'limit': 21,
       });
       if (response.statusCode == 200 || response.statusCode == 201) {
         // final resultData = response.data['results'];

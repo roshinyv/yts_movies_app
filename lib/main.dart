@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'yts Movies',
+            title: 'Yts Movies',
             theme: ThemeData(
               primarySwatch: Colors.indigo,
             ),

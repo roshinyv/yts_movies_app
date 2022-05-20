@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yts_app/application/search/search_bloc.dart';
+import 'package:yts_app/core/colors/constant_colors.dart';
 import 'package:yts_app/presentation/fullview/search_result_fullview.dart';
 import 'package:yts_app/presentation/widgets/card_view.dart';
 
@@ -14,6 +15,28 @@ class SearchResults extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+        if (state.isLoading) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: kGoldenColor,
+            ),
+          );
+        } else if (state.isError) {
+          return Center(
+            child: Image.asset(
+              "assets/images/error_gif.gif",
+              height: 125,
+              width: 125,
+            ),
+          );
+        } else if (state.searchResultList.isEmpty) {
+          return const Center(
+            child: Text(
+              'List is Empty',
+              style: TextStyle(color: kWhiteColor),
+            ),
+          );
+        }
         return GridView.builder(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             scrollDirection: Axis.vertical,

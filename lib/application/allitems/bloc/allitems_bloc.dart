@@ -18,6 +18,12 @@ class AllitemsBloc extends Bloc<AllitemsEvent, AllitemsState> {
 
   AllitemsBloc(this._allitemsServices) : super(AllitemsState.initial()) {
     on<_NextPage>((event, emit) async {
+      if (state.movieList.isNotEmpty) {
+        emit(
+          AllitemsState(
+              movieList: state.movieList, isLoading: false, isError: false),
+        );
+      }
       final result = await _allitemsServices.nextPage(pageNo: page);
       final _state = result.fold(
         (MainFailure fail) {
